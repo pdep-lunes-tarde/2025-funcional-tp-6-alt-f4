@@ -26,6 +26,7 @@ precioFinal (Hamburguesa preciobase ingredientes) = preciobase + sumatoriaPrecio
 sumatoriaPrecio :: [Ingrediente] -> Number
 sumatoriaPrecio = sum . map precioIngrediente
 
+
 agrandar :: Hamburguesa -> Hamburguesa
 agrandar unaHamburguesa
     |tieneIngrediente Carne unaHamburguesa = agregarIngrediente Carne unaHamburguesa 
@@ -34,11 +35,15 @@ agrandar unaHamburguesa
 tieneIngrediente :: Ingrediente -> Hamburguesa -> Bool
 tieneIngrediente unIngrediente unaHamburguesa = any (==unIngrediente) (ingredientes unaHamburguesa)
 
+
 agregarIngrediente :: Ingrediente -> Hamburguesa -> Hamburguesa
 agregarIngrediente unIngrediente unaHamburguesa = unaHamburguesa {ingredientes = ingredientes unaHamburguesa ++ [unIngrediente]} 
 
 descuento :: Number -> Hamburguesa -> Hamburguesa
-descuento porcentajeDescuento unaHamburguesa = unaHamburguesa {precioBase = precioBase unaHamburguesa * (1 - (porcentajeDescuento/100))}
+descuento porcentajeDescuento unaHamburguesa = unaHamburguesa {precioBase = aplicarDescuento porcentajeDescuento (precioBase unaHamburguesa)}
+
+aplicarDescuento :: Number -> Number -> Number
+aplicarDescuento descuento numero = numero * (1 - (descuento/100))
 
 pdepBurger :: Hamburguesa
 pdepBurger = (descuento 20 . agregarIngrediente Cheddar . agregarIngrediente Panceta . agrandar . agrandar) cuartoDeLibra
