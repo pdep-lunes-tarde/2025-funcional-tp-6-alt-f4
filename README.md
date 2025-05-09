@@ -11,16 +11,15 @@
 
 ## Equipo
 
-- Nombre del grupo
+- Nombre equipo: alt f4
 
-- Legajo: **Completar**
-- Nombre: **Completar**
+- Legajo: 2139911
 
-- Legajo: **Completar**
-- Nombre: **Completar**
+- Nombre: Thiago Perez
 
-- Legajo: **Completar**
-- Nombre: **Completar**
+- Legajo: 2084521
+
+- Nombre: Nicolas Bustos
 
 
 ## El enunciado
