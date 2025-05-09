@@ -11,17 +11,13 @@ correrTests = hspec $ do
 describe "Parte 1" $ do
     it "El precioFinal de un cuartoDeLibra es 54" $ do
       precioFinal cuartoDeLibra `shouldBe` 20 + 2 + 20 + 10 + 2
-
     it "Agrandar una hamburguesa con carne le agrega otra carne" $ do
       agrandar cuartoDeLibra `shouldBe` Hamburguesa 20 [Pan, Carne, Cheddar, Pan, Carne]
-
     it "Agrandar una hamburguesa con pollo le agrega otro pollo" $ do
       let hamb = Hamburguesa 25 [Pollo, Pan]
       agrandar hamb `shouldBe` Hamburguesa 25 [Pollo, Pan, Pollo]
-
     it "agregarIngrediente añade el ingrediente al final de la lista de ingredientes de la hamburguesa" $ do
       agregarIngrediente Panceta cuartoDeLibra `shouldBe` Hamburguesa 20 [Pan, Carne, Cheddar, Pan, Panceta]
-
     it "Un 50% de descuento a una hamburguesa reduce su precio base a la mitad" $ do
       descuento 50 (Hamburguesa 100 []) `shouldBe` Hamburguesa 50 []
   

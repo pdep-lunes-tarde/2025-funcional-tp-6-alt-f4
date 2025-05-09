@@ -1,7 +1,7 @@
 module Library where
 import PdePreludat
 data Ingrediente =
-    Carne | Pan | Panceta | Cheddar | Pollo | Curry | QuesoDeAlmendras | Papas
+    Carne | Pan | Panceta | Cheddar | Pollo | Curry | QuesoDeAlmendras | Papas | PatiVegano | BaconDeTofu | PanIntegral
     deriving (Eq, Show)
 
 precioIngrediente Carne = 20
@@ -12,6 +12,9 @@ precioIngrediente Pollo =  10
 precioIngrediente Curry = 5
 precioIngrediente QuesoDeAlmendras = 15
 precioIngrediente Papas = 10
+precioIngrediente PanIntegral = 3
+precioIngrediente PatiVegano = 10
+precioIngrediente BaconDeTofu = 12
 
 data Hamburguesa = Hamburguesa {
     precioBase :: Number,
@@ -61,3 +64,40 @@ bigPdep = agregarIngrediente Curry dobleCuarto
 
 delDia :: Hamburguesa -> Hamburguesa
 delDia = agregarIngrediente Papas . descuento 30 
+
+
+-- parte 3
+
+ingredienteVegano :: Ingrediente -> Ingrediente
+ingredienteVegano Carne = PatiVegano
+ingredienteVegano Pollo = PatiVegano
+ingredienteVegano Cheddar = QuesoDeAlmendras
+ingredienteVegano Panceta = BaconDeTofu
+ingredienteVegano otracosa = otracosa
+
+
+
+hacerVeggie :: Hamburguesa -> Hamburguesa
+hacerVeggie = actualizarPrecio . cambiarIngredientes
+
+cambiarIngredientes :: Hamburguesa -> Hamburguesa
+cambiarIngredientes = modificarIngredientes (map ingredienteVegano)
+
+actualizarPrecio :: Hamburguesa -> Hamburguesa
+actualizarPrecio unaHamburguesa = unaHamburguesa {precioBase = precioFinal unaHamburguesa - sumatoriaPrecio (ingredientes unaHamburguesa)}
+
+
+modificarIngredientes unOunosIngredientes unaHamburguesa = unaHamburguesa {ingredientes= unOunosIngredientes (ingredientes unaHamburguesa)}
+
+cambiarPanDePati unaHamburguesa = unaHamburguesa { ingredientes = map reemplazarPan(ingredientes unaHamburguesa), precioBase = precioBase unaHamburguesa + cantidadPanes unaHamburguesa * diferenciaPrecio}
+
+
+cantidadPanes unaHamburguesa= length (filter (== Pan) (ingredientes unaHamburguesa))
+diferenciaPrecio = precioIngrediente PanIntegral - precioIngrediente Pan
+
+reemplazarPan :: Ingrediente -> Ingrediente
+reemplazarPan Pan = PanIntegral
+reemplazarPan otracosa = otracosa
+
+
+dobleCuartoVegano = cambiarPanDePati . hacerVeggie $ dobleCuarto
